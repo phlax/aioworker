@@ -1,0 +1,15 @@
+
+cdef class Worker:
+    cpdef dict tasks
+    cpdef dict subscribers
+    cpdef blocking_wait
+    cpdef get_backend    
+    cpdef _set_globals
+    cpdef stop
+    cpdef start
+    cpdef configure    
+    cpdef _set_backend
+    cpdef create_task_request
+    cpdef loop
+    cpdef broker
+    cpdef prefix
