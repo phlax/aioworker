@@ -39,7 +39,10 @@ cdef class Runner(object):
         return taskid, self.get_task(taskid, function), args, kwargs
 
     cpdef return_job_result(self, str job, future: asyncio.Future):
-        self.backend.loop.create_task(self.backend.publish(job, dict(result=future.result())))
+        self.backend.loop.create_task(
+            self.backend.publish(
+                job,
+                dict(result=future.result())))
 
     cpdef set_concurrency(self):
         self.concurrency_sem = (
@@ -66,7 +69,8 @@ cdef class Runner(object):
         return Job(app, task, *args, **kwargs)
 
     async def run(self, task task, *args, **kwargs) -> object:
-        async with self.get_job(self.backend.app, task, args, kwargs) as result:
+        _context = self.get_job(self.backend.app, task, args, kwargs)
+        async with _context as result:
             return result
 
     async def serve(self) -> None:

@@ -79,7 +79,7 @@ def test_worker_load(configure_m, mocker):
     worker = MockWorker()
     worker.get_backend = mocker.MagicMock()
     app = App({})
-    response = worker.load(app)
+    worker.load(app)
     assert worker.backend == worker.get_backend.return_value
     assert (
         [c[0] for c in worker.get_backend.call_args_list]

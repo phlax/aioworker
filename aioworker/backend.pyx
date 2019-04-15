@@ -57,6 +57,5 @@ cdef class Backend(object):
         raise NotImplementedError
 
 
-
 class Py__Backend(Backend):
     pass

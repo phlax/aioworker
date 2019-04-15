@@ -266,13 +266,14 @@ async def test_runner_start():
         async def _serve(*args, **kwargs):
             global _called
             if _called >= 2:
-                raise TypeError("this func doesnt get called more than 3 times")
+                raise TypeError(
+                    "this func doesnt get called more than 3 times")
             _called += 1
 
         serve_m.side_effect = _serve
         try:
             await runner.start()
-        except TypeError as e:
+        except TypeError:
             pass
         assert (
             [c[0] for c in serve_m.call_args_list]

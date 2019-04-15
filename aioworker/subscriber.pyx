@@ -27,7 +27,9 @@ cdef class Subscriber(object):
         tasks_done = self.running_tasks.pop(task_id)
         log.debug("Task '{}' done".format(tasks_done))
 
-    async def push_task(self, str task_id, task task, *args, **kwargs) -> Union[str, None]:
+    async def push_task(
+            self, str task_id, task task,
+            *args, **kwargs) -> Union[str, None]:
         await self.backend.subscriber._redis_pub.lpush(
             self.backend.task_event,
             pack_task(

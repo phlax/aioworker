@@ -107,7 +107,7 @@ def test_console_make_config(configure_m):
     result = console.make_config()
     assert result == console.schema.load.return_value
     assert (
-        [c[0] for c  in console.schema.load.call_args_list]
+        [c[0] for c in console.schema.load.call_args_list]
         == [({'foo': 7, 'bar': 23, 'baz': 117},)])
 
 

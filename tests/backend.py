@@ -180,13 +180,17 @@ def test_backend_connect():
         assert [c[0] for c in runner_m.call_args_list] == [()]
 
     backend.config.kwargs["worker"] = False
-    with patch('aioworker.backend.Py__Backend.get_task_event') as task_m:
-        with patch('aioworker.backend.Py__Backend.get_subscriber') as subscriber_m:
-            with patch('aioworker.backend.Py__Backend.get_runner') as runner_m:
-                task_m.return_value = "TASK"
-                subscriber_m.return_value = MockSubscriber(backend)
-                runner_m.return_value = MockRunner(backend)
-                backend.connect()
-                assert [c[0] for c in task_m.call_args_list] == [()]
-                assert [c[0] for c in subscriber_m.call_args_list] == [()]
-                assert [c[0] for c in runner_m.call_args_list] == []
+
+    _patches = nested(
+        patch('aioworker.backend.Py__Backend.get_task_event'),
+        patch('aioworker.backend.Py__Backend.get_subscriber'),
+        patch('aioworker.backend.Py__Backend.get_runner'))
+
+    with _patches as (task_m, subscriber_m, runner_m):
+        task_m.return_value = "TASK"
+        subscriber_m.return_value = MockSubscriber(backend)
+        runner_m.return_value = MockRunner(backend)
+        backend.connect()
+        assert [c[0] for c in task_m.call_args_list] == [()]
+        assert [c[0] for c in subscriber_m.call_args_list] == [()]
+        assert [c[0] for c in runner_m.call_args_list] == []
