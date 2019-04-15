@@ -10,19 +10,33 @@ if sys.version_info < (3, 5,):
     raise RuntimeError("aioworker requires Python 3.5.0+")
 
 
+install_requires = [
+    "aioredis",
+    "click",
+    "colorlog",
+    "cython",
+    "marshmallow>=3.0.0rc4",
+    "msgpack-python",
+    "python-rapidjson",
+    "umsgpack",
+    "uvloop"]
+extras_require = {}
+extras_require['test'] = [
+    "codecov",
+    "coverage",
+    "cython",
+    "flake8",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-coverage",
+    "pytest-mock"],
+
+
 setup(
     name='aioworker',
     version='0.1.2',
-    install_requires=[
-        "aioredis",
-        "click",
-        "colorlog",
-        "cython",
-        "marshmallow>=3.0.0rc4",
-        "msgpack-python",
-        'umsgpack',
-        "uvloop"
-    ],
+    install_requires=install_requires,
+    extras_require=extras_require,
     url='https://github.com/phlax/aioworker',
     license='GPL3',
     author='Ryan Northey',
